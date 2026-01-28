@@ -1,0 +1,4 @@
+requests
+colorthief
+jinja2
+boto3

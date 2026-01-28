@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Spotify now-playing SVG Lambda
+
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 256
+    Runtime: python3.11
+
+Resources:
+  SpotifySecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: spotify/now-playing
+      Description: Dummy Spotify credentials for local/dev
+      SecretString: |
+        {"SPOTIFY_CLIENT_ID":"dummy-client-id","SPOTIFY_SECRET_ID":"dummy-secret-id","SPOTIFY_REFRESH_TOKEN":"dummy-refresh-token"}
+
+  SpotifyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: spotify.lambda_handler
+      CodeUri: src
+      Policies:
+        - AWSLambdaBasicExecutionRole
+      Environment:
+        Variables:
+          SPOTIFY_SECRET_NAME: !Ref SpotifySecret
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /
+            Method: GET
