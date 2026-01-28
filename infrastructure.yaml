@@ -9,6 +9,18 @@ Globals:
     Runtime: python3.11
 
 Resources:
+  SpotifyApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: spotify-api
+      StageName: Prod
+      Domain:
+        DomainName: spotify.aws-sensei.cloud
+        CertificateArn: arn:aws:acm:us-east-1:804711834430:certificate/6ac27f6a-b570-4111-8687-1c6113bd1f49
+        EndpointConfiguration: EDGE
+        Route53:
+          HostedZoneId: Z0003192F8JJC6RWXV1M
+
   SpotifySecret:
     Type: AWS::SecretsManager::Secret
     Properties:
@@ -37,5 +49,6 @@ Resources:
         Api:
           Type: Api
           Properties:
+            RestApiId: !Ref SpotifyApi
             Path: /
             Method: GET
