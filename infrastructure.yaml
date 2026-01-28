@@ -24,6 +24,12 @@ Resources:
       CodeUri: src
       Policies:
         - AWSLambdaBasicExecutionRole
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - secretsmanager:GetSecretValue
+              Resource: !Ref SpotifySecret
       Environment:
         Variables:
           SPOTIFY_SECRET_NAME: !Ref SpotifySecret
