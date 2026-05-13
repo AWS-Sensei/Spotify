@@ -7,6 +7,10 @@ Globals:
     Timeout: 10
     MemorySize: 256
     Runtime: python3.11
+    Tags:
+      Project: aws-sensei
+      Service: spotify
+      Component: app
 
 Resources:
   SpotifyApi:
@@ -20,6 +24,10 @@ Resources:
         EndpointConfiguration: EDGE
         Route53:
           HostedZoneId: Z0003192F8JJC6RWXV1M
+      Tags:
+        Project: aws-sensei
+        Service: spotify
+        Component: app
 
   SpotifySecret:
     Type: AWS::SecretsManager::Secret
@@ -28,6 +36,13 @@ Resources:
       Description: Dummy Spotify credentials for local/dev
       SecretString: |
         {"SPOTIFY_CLIENT_ID":"dummy-client-id","SPOTIFY_SECRET_ID":"dummy-secret-id","SPOTIFY_REFRESH_TOKEN":"dummy-refresh-token"}
+      Tags:
+        - Key: Project
+          Value: aws-sensei
+        - Key: Service
+          Value: spotify
+        - Key: Component
+          Value: app
 
   SpotifyFunction:
     Type: AWS::Serverless::Function
